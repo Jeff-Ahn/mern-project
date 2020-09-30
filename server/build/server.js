@@ -9,8 +9,9 @@ const cors_1 = __importDefault(require("cors"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const users_1 = __importDefault(require("./models/users"));
-const websocket_1 = __importDefault(require("./websocket"));
 const env_1 = require("./env");
+// initialize websocket server
+require("./websocket");
 const app = express_1.default();
 mongoose_1.default.connect(env_1.MONGODB_URL, {
     useUnifiedTopology: true,
@@ -60,4 +61,3 @@ app.post('/api/login', async (req, res) => {
     return res.json({ status: 'ok', data: payload });
 });
 app.listen(1337);
-websocket_1.default();

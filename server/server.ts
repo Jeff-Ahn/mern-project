@@ -6,8 +6,10 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from './models/users';
 
-import setupWebSocketServer from './websocket';
 import { MONGODB_URL, JWT_SECRET_TOKEN } from './env';
+
+// initialize websocket server
+import './websocket';
 const app = express();
 
 mongoose.connect(
@@ -73,4 +75,3 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.listen(1337);
-setupWebSocketServer();

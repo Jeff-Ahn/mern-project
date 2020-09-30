@@ -1,3 +1,5 @@
+import WebSocket from 'ws';
+
 export const processMessage = (payload: string) => {
   try {
     return JSON.parse(payload);
@@ -5,3 +7,7 @@ export const processMessage = (payload: string) => {
     return null;
   }
 };
+
+export interface CustomWebSocket extends WebSocket {
+  connectionID: string;
+}
