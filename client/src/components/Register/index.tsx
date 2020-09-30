@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import './style.css';
+import { apiCall } from '../utilty';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const registerUser = async () => {
-    const res = await fetch('http://localhost:1337/api/register', {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-      }),
-    }).then((t) => t.json());
+    const res = await apiCall('/api/register', {
+      email,
+      password,
+    });
+    console.log(res);
   };
 
   return (
