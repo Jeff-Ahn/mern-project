@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+require("./env");
 const express_1 = __importDefault(require("express"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
@@ -10,9 +11,9 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const users_1 = __importDefault(require("./models/users"));
 const websocket_1 = __importDefault(require("./websocket"));
-const env_1 = require("./env");
 const app = express_1.default();
-mongoose_1.default.connect(env_1.MONGODB_URL, {
+// const JWT_SECRET_TOKEN = 'asdfhwauegbvw@#!%@#DVFivnwpeuirjqrm,nvjhd232';
+mongoose_1.default.connect('mongodb+srv://ahu:AseJZi4CmOqmARLv@main.a8ir9.mongodb.net/mern?retryWrites=true&w=majority', {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -56,7 +57,7 @@ app.post('/api/login', async (req, res) => {
             error: 'Please check your email and password',
         });
     }
-    const payload = jsonwebtoken_1.default.sign({ email }, env_1.JWT_SECRET_TOKEN);
+    const payload = jsonwebtoken_1.default.sign({ email }, JWT_SECRET_TOKEN);
     return res.json({ status: 'ok', data: payload });
 });
 app.listen(1337);

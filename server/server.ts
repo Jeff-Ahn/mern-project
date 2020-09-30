@@ -6,12 +6,12 @@ import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 import User from './models/users';
 
+import setupWebSocketServer from './websocket';
+import { MONGODB_URL, JWT_SECRET_TOKEN } from './env';
 const app = express();
 
-const JWT_SECRET_TOKEN = 'asdfhwauegbvw@#!%@#DVFivnwpeuirjqrm,nvjhd232';
-
 mongoose.connect(
-  'mongodb+srv://ahu:AseJZi4CmOqmARLv@main.a8ir9.mongodb.net/mern?retryWrites=true&w=majority',
+  MONGODB_URL,
   {
     useUnifiedTopology: true,
     useNewUrlParser: true,
@@ -73,3 +73,4 @@ app.post('/api/login', async (req, res) => {
 });
 
 app.listen(1337);
+setupWebSocketServer();
