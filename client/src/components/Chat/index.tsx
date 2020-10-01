@@ -9,6 +9,7 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
+import { AnyAaaaRecord } from 'dns';
 
 type Message = {
   user: string;
@@ -45,6 +46,19 @@ const Chat = () => {
       'ws://localhost:1338/' + localStorage.getItem('token')
     );
 
+    ws.addEventListener(
+      'open',
+      () => {
+        ws.send(
+          JSON.stringify({
+            intent: 'old-messages',
+            count: 10,
+          })
+        );
+      },
+      { once: true }
+    );
+
     ws.addEventListener('error', () => {
       alert('Please login first');
       history.replace('/login');
@@ -53,13 +67,25 @@ const Chat = () => {
     ws.addEventListener('message', (event) => {
       const data = event.data;
 
-      const message: null | Message = processMessage(data);
+      const message: any = processMessage(data);
       if (!message) return;
       console.log(message);
       if (message.intent === 'chat') {
         setChatMessages((oldMessages) => {
-          return [...oldMessages, message];
+          return [...oldMessages, message as Message];
         });
+      } else if (message.intent === 'old-messages') {
+        console.log(message.data, 'are the older messages');
+        setChatMessages(
+          message.data
+            .map((item: any) => {
+              return {
+                user: item.email,
+                message: item.message,
+              };
+            })
+            .reverse()
+        );
       }
     });
 
@@ -69,6 +95,10 @@ const Chat = () => {
       ws.close();
     };
   }, []);
+
+  // TODO: Add another action which loads more messages
+
+  // 1. another click handler for that button
 
   return (
     <div>
