@@ -10,10 +10,10 @@ mv .gitignore_cicd .gitignore
 git init .
 git add .
 git commit -m "Deploying"
-git remote add production ssh://$user@$AWS_HOST/~/webapp
+git remote add production ssh://$user@$AWS_HOST/~/codedamn/graphql
 git push --force production master
 
-# ssh $user@$AWS_HOST "cd ~/webapp && \
-# pm2 kill
-# NODE_ENV=production pm2 start /home/ubuntu/webapp/server/build/server.js
-# exit"
+# ssh $user@$AWS_HOST "cd ~/codedamn/graphql && \
+# docker-compose -f ./docker/compose/common.yml -f ./docker/compose/prod.yml build && \
+# docker-compose -f ./docker/compose/common.yml -f ./docker/compose/prod.yml up --detach && \
+# exit" 

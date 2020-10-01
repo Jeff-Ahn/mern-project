@@ -92,7 +92,7 @@ const Chat = () => {
     return () => {
       ws.close();
     };
-  }, []);
+  }, [history]);
 
   // TODO: Add another action which loads more messages
 
